@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="operadores">
+        <item>0412</item>
+        <item>0414</item>
+        <item>0416</item>
+        <item>0424</item>
+        <item>0426</item>
+         <item>0212</item>
+    </string-array>
+</resources>

@@ -1,16 +1,51 @@
 package com.ayalamart.administrador;
 
-import android.support.v7.app.ActionBarActivity;
+import com.ayalamart.helper.GestionSesionesUsuario;
+
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 
-public class ActPrincipal extends ActionBarActivity {
+public class ActPrincipal extends AppCompatActivity {
 
+	GestionSesionesUsuario sesion; 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_act_principal);
+		
+		sesion = new GestionSesionesUsuario(getApplicationContext());
+		if (sesion.verificarLogin()) {
+			finish(); 
+		}
+		
+		Button but_ingredientes = (Button)findViewById(R.id.but_ingrecientes);
+		but_ingredientes.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent int_ingr = new Intent(getApplicationContext(), Act_Ingredientes.class); 
+				startActivity(int_ingr);	
+			}
+		});
+		final Button but_cerrarsesion = (Button)findViewById(R.id.but_cerrarsesion); 
+		but_cerrarsesion.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				
+				sesion.cerrarSesionUsuario();
+				
+			}
+		});
+		
+
+	
 	}
 
 	@Override

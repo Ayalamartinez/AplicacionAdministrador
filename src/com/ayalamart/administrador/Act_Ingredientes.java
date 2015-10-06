@@ -2,6 +2,7 @@ package com.ayalamart.administrador;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,6 +14,7 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 
 import com.ayalamart.helper.AppController;
+import com.ayalamart.helper.GestionSesionesUsuario;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -36,13 +38,19 @@ public class Act_Ingredientes extends AppCompatActivity {
 	private AutoCompleteTextView cantidad;
 	private ProgressDialog pDialog;
 	private static String TAG = Act_Ingredientes.class.getSimpleName(); 
+	GestionSesionesUsuario sesion; 
 	
-	
-	String URL_AGREG_INGREDS = "http://10.10.0.99:8080/Restaurante/rest/ingrediente/createIngrediente";
+	String URL_AGREG_INGREDS = "http://192.168.1.99:8080/Restaurante/rest/ingrediente/createIngrediente";
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_act__ingredientes);
+		sesion = new GestionSesionesUsuario(getApplicationContext());
+		
+		final HashMap<String, String> usuario = sesion.getDetallesUsuario(); 
+		final String idcliente = usuario.get(GestionSesionesUsuario.idcliente); 
+		
+		
 	
 	nombre_ingr = (AutoCompleteTextView)findViewById(R.id.nombre_ingrediente);
 	tipo_ingrediente = (AutoCompleteTextView)findViewById(R.id.tipo_ingrediente);
@@ -68,7 +76,7 @@ public class Act_Ingredientes extends AppCompatActivity {
 			Log.d(TAG, "sacó la data de los ET"); 
 			
 			Long idingrediente = new Long (0);
-			int idadministrador =  1;
+			
 			
 			Calendar rightnow =Calendar.getInstance();
 			SimpleDateFormat fechaact = new SimpleDateFormat("dd-MMM-yyyy");
@@ -79,7 +87,7 @@ public class Act_Ingredientes extends AppCompatActivity {
 			
 			try {
 				js_ingr.put("idingrediente", idingrediente);
-				js_ingr.put("idadministrador", idadministrador);
+				js_ingr.put("idCliente", idcliente);
 				js_ingr.put("nomingrediente", nombr_ingr_str);
 				js_ingr.put("descingrediente", descrip_ing_str);
 				js_ingr.put("tipoingrediente", tipo_ing_str);

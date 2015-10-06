@@ -27,7 +27,6 @@ public class GestionSesionesUsuario {
 	Editor editor_ap; 
 	Context context_ap;
 	int PRIVATE_MODE = 0; 
-	final String url_cl = "http://192.168.0.103:8080/Restaurante/createCliente"; 
 	private static final String TAG = GestionSesionesUsuario.class.getSimpleName(); 
 
 
@@ -41,6 +40,9 @@ public class GestionSesionesUsuario {
 	public static final String correo = "correo_str";
 	public static final String telefono = "telefono_str";
 	public static final String contrasena = "contrasena_str";
+	public static final String tipocliente = "tipocliente_str"; 
+	public static final String idcliente = "idcliente_str"; 
+	
 
 	public GestionSesionesUsuario(Context context_c){
 		this.context_ap = context_c; 
@@ -49,7 +51,7 @@ public class GestionSesionesUsuario {
 	}
 
 	public void crearSesionUSuario(String name, String email, String nombre_str, String apellido_str,
-			String cedula_str, String correo_str, String telefono_str){
+			String cedula_str, String correo_str, String telefono_str, String contrasena_str, String tipocliente_str, String idcliente_str){
 		editor_ap.putBoolean(USUARIO_LOGGEADO, true); 
 		editor_ap.putString(PREFER_NAME, name); 
 		editor_ap.putString(KEY_EMAIL, email); 
@@ -58,59 +60,17 @@ public class GestionSesionesUsuario {
 		editor_ap.putString(cedula, cedula_str); 
 		editor_ap.putString(correo, correo_str);
 		editor_ap.putString(telefono, telefono_str); 
-		//		editor_ap.putString(contrasena, contrasena_str);	
+		editor_ap.putString(contrasena, contrasena_str);
+		editor_ap.putString(tipocliente, tipocliente_str); 
+		editor_ap.putString(idcliente, idcliente_str); 
 		editor_ap.commit(); 
 
-
-		try {
-			final JSONObject jsonBody = new JSONObject();
-			jsonBody.put("nomCliente", nombre); 
-			jsonBody.put("apeCliente", apellido); 
-			jsonBody.put("cedCliente", cedula); 
-			jsonBody.put("telcliente", telefono);  
-			jsonBody.put("emailCliente", correo); 
-			jsonBody.put("estatus", "1");
-			jsonBody.put("passCliente", "1234"); 
-			jsonBody.put("idCliente", " "); 
-			
-			Log.d(TAG, "VARIABLES INICIALIZADAS EN JSONBODY"); 
-	
-			new JsonObjectRequest(url_cl, jsonBody, new Listener<JSONObject>() {
-
-				
-				@Override
-				public void onResponse(JSONObject response) {
-				
-					String resultado = response.toString(); 
-					if (resultado != "true") {
-						
-						Log.d(TAG, "No recibió respuesta del server"); 
-						//colocar aviso de que no se recibio respuesta del servidor
-					}
-					else{
-						Log.d(TAG, "Se recibió respuesta del server"); 
-					}
-					}
-				}, new Response.ErrorListener() {
-					@Override
-					public void onErrorResponse(VolleyError error){
-				Log.d(TAG, "Error no" + error.getMessage()); 
-				
-						
-					}
-				}); 
-
-			} catch (JSONException e) {
-				e.printStackTrace();
-				Log.d(TAG, "ERROR EN VOLLEY/JSON"); 
-			} 
-
-
 		}
-		public void iniciarSesionUsuario(String name, String email){
+		public void iniciarSesionUsuario(String name, String email, String contrasena_str){
 			editor_ap.putBoolean(USUARIO_LOGGEADO, true); 
 			editor_ap.putString(PREFER_NAME, name); 
 			editor_ap.putString(KEY_EMAIL, email); 
+			editor_ap.putString(contrasena, contrasena_str); 
 			editor_ap.commit(); 
 		}
 
@@ -134,7 +94,9 @@ public class GestionSesionesUsuario {
 			usuario.put(cedula, pref_ap.getString(cedula, null));
 			usuario.put(correo, pref_ap.getString(correo, null));
 			usuario.put(telefono, pref_ap.getString(telefono, null));
-			usuario.put(contrasena, pref_ap.getString(contrasena, null));		
+			usuario.put(contrasena, pref_ap.getString(contrasena, null));
+			usuario.put(tipocliente, pref_ap.getString(tipocliente, null)); 
+			usuario.put(idcliente, pref_ap.getString(idcliente, null)); 
 			return usuario; 
 		}
 

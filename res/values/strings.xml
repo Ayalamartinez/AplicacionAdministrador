@@ -4,7 +4,7 @@
     <string name="app_name">AppAdmin</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_act__ingredientes">Act_Ingredientes</string>
+    <string name="title_activity_act__ingredientes">Stock</string>
     <string name="prompt_email">Correo</string>
     <string name="prompt_password">Contraseña</string>
     <string name="action_sign_in_1">Iniciar Sesión</string>
@@ -14,7 +14,9 @@
     <string name="field_required">Este campo es obligatorio</string>
     <string name="action_sign_in">INICIAR SESIÓN</string>
     <string name="registrarse_login">Registrarse</string>
-    <string name="title_activity_act_principal">ActPrincipal</string>
+    <string name="title_activity_act_principal">Principal</string>
+    <string name="title_activity_act__login">Login</string>
+      <string name="title_activity_act__signup">Registro</string>
     <string name="nombre_usuario"></string>
     <string name="nombre_usuario_hint">Nombres</string>
     <string name="apellido_usuario_hint">Apellidos</string>
@@ -47,5 +49,7 @@
     <string name="hint_precio_unitario">Precio Unitario</string>
 
     <string name="hint_cant_ing">Cantidad</string>
+
+    <string name="but_ingredientes">STOCK</string>
 
 </resources>

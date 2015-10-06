@@ -1,5 +1,11 @@
 package com.ayalamart.administrador;
 
+import java.io.IOException;
+import java.math.BigInteger;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -37,11 +43,12 @@ public class Act_login extends AppCompatActivity {
 	GestionSesionesUsuario sesion;
 	private ProgressDialog pDialog;
 	private String urlJsonObj; 
-	
-    private static String TAG = Act_login.class.getSimpleName();
 
-    
-    String url = "http://192.168.0.103:8080/Restaurante/rest/getCliente/"; 
+	private static String TAG = Act_login.class.getSimpleName();
+
+
+	String url = "http://10.10.0.99:8080/Restaurante/rest/getCliente/"; 
+	String url_R = "http://192.168.1.99:8080/Restaurante/rest/getCliente/"; 
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -57,13 +64,13 @@ public class Act_login extends AppCompatActivity {
 		Linkify.addLinks(signUpTextView, Linkify.ALL);
 
 		Toast.makeText(getApplicationContext(), "Status de Login de Usuario" + sesion.estaLogeadoelUsuario(), Toast.LENGTH_SHORT).show();
-		
+
 		pDialog = new ProgressDialog(this);
-        pDialog.setMessage("Please wait...");
-        pDialog.setCancelable(false);
-        
+		pDialog.setMessage("Porfavor espere...");
+		pDialog.setCancelable(false);
+
 		if (sesion.estaLogeadoelUsuario()) {
-			Intent intent_ppal = new Intent(getApplicationContext(), Act_Ingredientes.class); 
+			Intent intent_ppal = new Intent(getApplicationContext(), ActPrincipal.class); 
 			intent_ppal.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
 			intent_ppal.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); 
 			startActivity(intent_ppal);
@@ -72,71 +79,89 @@ public class Act_login extends AppCompatActivity {
 
 		Button button_login = (Button)findViewById(R.id.email_sign_in_button); 		
 		button_login.setOnClickListener(new OnClickListener() {
-			        
+
+			private String urlJsonObj_r;
+			private String UrlRequest;
+
 			@Override
 			public void onClick(View v) {
-			
+
 				final String email_str = email.getText().toString();
-			    final String password_str = password.getText().toString(); 
+				final String password_str = password.getText().toString(); 
+				
+				
+				
 				View focusView = null;
 
 				if (validarCorreo(email_str)) {
 					if (validarPassword(password_str)) {	
 						urlJsonObj = url + email_str; 
+						urlJsonObj_r = url_R + email_str; 
+						Log.d(TAG, urlJsonObj); 
+						
 						sesion.getDetallesUsuario(); 
-						sesion.iniciarSesionUsuario("nombre en la bd", email_str);
+						
+						
 						showpDialog();
 						JsonObjectRequest jsonObjReq = new JsonObjectRequest(Method.GET, 
-								urlJsonObj, null, new Response.Listener<JSONObject>() {
-						    
+								urlJsonObj_r, null, new Response.Listener<JSONObject>() {
+							
 							@Override
-						    public void onResponse(JSONObject response) {
-						        Log.d(TAG, response.toString());
+							public void onResponse(JSONObject response) {
+								Log.d(TAG, response.toString());
 
-						        try {
+								try {
 
-						            String nombre = response.getString("nomCliente");
-						            String apellido = response.getString("apeCliente");
-						            String cedula = response.getString("cedCliente");
-						            String correo = response.getString("emailCliente");
-						            String status = response.getString("estatus");
-						            String idcliente = response.getString("idCliente");
-						            String telefono = response.getString("telCliente");
-						            String clave = response.getString("passCliente");
-						            
-						            if (clave.equals(password_str)) {
-						            	sesion.crearSesionUSuario(nombre, correo, nombre, apellido, cedula, correo, telefono);
-						            	
-						            	Intent intent_ppal = new Intent(getApplicationContext(), ActPrincipal.class); 
+									String nombre = response.getString("nomCliente");
+									String apellido = response.getString("apeCliente");
+									String cedula = response.getString("cedCliente");
+									String correo = response.getString("emailCliente");
+									String status = response.getString("estatus");
+									String idcliente = response.getString("idCliente");
+									String telefono = response.getString("telCliente");
+									String clave = response.getString("passCliente");
+									String tipocliente = response.getString("tipoCliente"); 
+									
+									if(status.equals("0")){
+										Toast.makeText(getApplicationContext(), "Su usuario se encuentra inhabilitado", Toast.LENGTH_SHORT).show(); 
+									}
+
+									
+									String clave_hash = bin2hex(getHash(password_str)); 
+
+									if (clave.equals(clave_hash)) {
+										sesion.crearSesionUSuario(nombre, correo, nombre, apellido, cedula, correo, telefono, clave_hash, tipocliente, idcliente);
+
+										Intent intent_ppal = new Intent(getApplicationContext(), ActPrincipal.class); 
 										intent_ppal.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
 										intent_ppal.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); 
 										startActivity(intent_ppal);
 										finish(); 
-						            
-						            }
-						            else{
-						            	Toast.makeText(getApplicationContext(), "Clave inválida!!", Toast.LENGTH_SHORT).show(); 
-						            }
-						            
 
-						        } catch (JSONException e) {
-						            e.printStackTrace();
-						            Toast.makeText(getApplicationContext(),
-						                    "Error: " + e.getMessage(),
-						                    Toast.LENGTH_LONG).show();
-						        }
-						        hidepDialog();
-						    }
+									}
+									else{
+										Toast.makeText(getApplicationContext(), "Clave inválida!!", Toast.LENGTH_SHORT).show(); 
+									}
+
+
+								} catch (JSONException e) {
+									e.printStackTrace();
+									Toast.makeText(getApplicationContext(),
+											"Error: " + e.getMessage(),
+											Toast.LENGTH_LONG).show();
+								} 
+								hidepDialog();
+							}
 						}, new Response.ErrorListener() {
 
-						    @Override
-						    public void onErrorResponse(VolleyError error) {
-						        VolleyLog.d(TAG, "Error: " + error.getMessage());
-						        Toast.makeText(getApplicationContext(),
-						                error.getMessage(), Toast.LENGTH_SHORT).show();
-						        // hide the progress dialog
-						        hidepDialog();
-						    }
+							@Override
+							public void onErrorResponse(VolleyError error) {
+								VolleyLog.d(TAG, "Error: " + error.getMessage());
+								Toast.makeText(getApplicationContext(),
+										error.getMessage(), Toast.LENGTH_SHORT).show();
+								// hide the progress dialog
+								hidepDialog();
+							}
 						});
 
 						// Adding request to request queue
@@ -155,7 +180,7 @@ public class Act_login extends AppCompatActivity {
 		signUpTextView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent_signup = new Intent(getApplicationContext(), Act_Ingredientes.class); 
+				Intent intent_signup = new Intent(getApplicationContext(), Act_Signup.class); 
 				intent_signup.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
 				intent_signup.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); 
 				startActivity(intent_signup);
@@ -173,23 +198,37 @@ public class Act_login extends AppCompatActivity {
 
 	}
 	private boolean validarPassword (String contrasena_str){
-		if (contrasena_str != null && contrasena_str.length() > 5 ){
+		if (contrasena_str != null && contrasena_str.length() >= 5 ){
 			return true; 
 		}
 		return false; 
 	}
 
-	
 
 
-private void showpDialog() {
-    if (!pDialog.isShowing())
-        pDialog.show();
+private byte[] getHash(String password) {
+    MessageDigest digest=null;
+ try {
+     digest = MessageDigest.getInstance("SHA-256");
+ } catch (NoSuchAlgorithmException e1) {
+     // TODO Auto-generated catch block
+     e1.printStackTrace();
+ }
+    digest.reset();
+    return digest.digest(password.getBytes());
+}
+private static String bin2hex(byte[] data) {
+    return String.format("%0" + (data.length*2) + "X", new BigInteger(1, data));
 }
 
-private void hidepDialog() {
-    if (pDialog.isShowing())
-        pDialog.dismiss();
-}
+	private void showpDialog() {
+		if (!pDialog.isShowing())
+			pDialog.show();
+	}
+
+	private void hidepDialog() {
+		if (pDialog.isShowing())
+			pDialog.dismiss();
+	}
 
 }
