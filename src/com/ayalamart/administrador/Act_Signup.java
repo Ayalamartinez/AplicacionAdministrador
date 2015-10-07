@@ -1,9 +1,6 @@
 package com.ayalamart.administrador;
 
-import java.io.IOException;
 import java.math.BigInteger;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;
@@ -13,16 +10,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.android.volley.Request.Method;
-import com.android.volley.RequestQueue;
-import com.android.volley.NetworkResponse;
-import com.android.volley.NoConnectionError;
-import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.ayalamart.helper.AppController;
 import com.ayalamart.helper.GestionSesionesUsuario;
 
@@ -34,13 +25,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.webkit.URLUtil;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class Act_Signup extends Activity {
 	private EditText contrasena; 
@@ -54,7 +43,8 @@ public class Act_Signup extends Activity {
 	private ProgressDialog pDialog;
 	String Nac_doc;
 	String OP_doc;
-	String urlCrearCliente = "http://10.10.0.99:8080/Restaurante/rest/createCliente"; 
+	String urlCrearCliente = "http://192.168.1.99:8080/Restaurante/rest/createCliente"; 
+	String urlCrearCliente_N = "http://10.10.0.99:8080/Restaurante/rest/createCliente"; 
 	String urlCrearcliente_R = "http://192.168.1.99:8080/Restaurante/rest/createCliente"; 
 	//private String UrlRequest; 
 	String tipocliente = "administrador";
@@ -173,7 +163,7 @@ public class Act_Signup extends Activity {
 									Log.d(TAG, "ERROR DE JSON"); 
 								} 
 
-									UrlRequest = urlCrearcliente_R; 
+									UrlRequest = urlCrearCliente; 
 									
 									JsonObjectRequest jsonObjReq = new JsonObjectRequest(Method.POST, 
 											UrlRequest, json_ob, null , new Response.ErrorListener() {

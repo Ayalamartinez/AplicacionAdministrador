@@ -16,7 +16,7 @@
     <string name="registrarse_login">Registrarse</string>
     <string name="title_activity_act_principal">Principal</string>
     <string name="title_activity_act__login">Login</string>
-      <string name="title_activity_act__signup">Registro</string>
+    <string name="title_activity_act__signup">Registro</string>
     <string name="nombre_usuario"></string>
     <string name="nombre_usuario_hint">Nombres</string>
     <string name="apellido_usuario_hint">Apellidos</string>
@@ -27,29 +27,18 @@
     <string name="apellido_usuario"></string>
     <string name="acion_sign_up">REGISTRARSE</string>
     <string name="telefono_signup">Teléfono móvil</string>
-
     <string name="cedula_usuario"></string>
-
     <string name="et_nombreingr"></string>
-
     <string name="et_tipoingr"></string>
-
     <string name="hint_nombreingr">Nombre del Ingrediente</string>
-
     <string name="hint_tipoing">Tipo de Ingrediente</string>
-
     <string name="et_preciounit"></string>
-
     <string name="et_cantidad"></string>
-
     <string name="str_but_Agregar">Agregar</string>
-
     <string name="et_descripcioningr"></string>
-
     <string name="hint_precio_unitario">Precio Unitario</string>
-
     <string name="hint_cant_ing">Cantidad</string>
-
     <string name="but_ingredientes">STOCK</string>
+    <string name="title_activity_plato__menu">Plato_Menu</string>
 
 </resources>

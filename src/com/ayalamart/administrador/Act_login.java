@@ -1,9 +1,6 @@
 package com.ayalamart.administrador;
 
-import java.io.IOException;
 import java.math.BigInteger;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;
@@ -46,8 +43,8 @@ public class Act_login extends AppCompatActivity {
 
 	private static String TAG = Act_login.class.getSimpleName();
 
-
-	String url = "http://10.10.0.99:8080/Restaurante/rest/getCliente/"; 
+	String url = "http://192.168.1.99:8080/Restaurante/rest/getCliente/"; 
+	String url_N = "http://10.10.0.99:8080/Restaurante/rest/getCliente/"; 
 	String url_R = "http://192.168.1.99:8080/Restaurante/rest/getCliente/"; 
 
 	protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +101,7 @@ public class Act_login extends AppCompatActivity {
 						
 						showpDialog();
 						JsonObjectRequest jsonObjReq = new JsonObjectRequest(Method.GET, 
-								urlJsonObj_r, null, new Response.Listener<JSONObject>() {
+								urlJsonObj, null, new Response.Listener<JSONObject>() {
 							
 							@Override
 							public void onResponse(JSONObject response) {

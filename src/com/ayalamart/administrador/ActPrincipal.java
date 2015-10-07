@@ -33,7 +33,18 @@ public class ActPrincipal extends AppCompatActivity {
 				startActivity(int_ingr);	
 			}
 		});
-		final Button but_cerrarsesion = (Button)findViewById(R.id.but_cerrarsesion); 
+		Button but_platos = (Button)findViewById(R.id.but_platos); 
+		but_platos.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent int_plato = new Intent(getApplicationContext(), Act_PlatosMenu.class); 
+				startActivity(int_plato); 
+				
+			}
+		});
+		
+		Button but_cerrarsesion = (Button)findViewById(R.id.but_cerrarsesion); 
 		but_cerrarsesion.setOnClickListener(new OnClickListener() {
 			
 			@Override

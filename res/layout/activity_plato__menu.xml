@@ -1,0 +1,57 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.ayalamart.administrador.Act_PlatosMenu" >
+
+    <AutoCompleteTextView
+        android:id="@+id/ET_NombrePlato"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/et_URLimg"
+        android:layout_gravity="center_horizontal"
+        android:ems="10"
+        android:hint="Nombre Plato" />
+
+    <ListView
+        android:id="@android:id/list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:listitem="@android:layout/simple_list_item_checked" >
+    </ListView>
+
+    <EditText
+        android:id="@+id/et_descripcionplato"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Descripción del plato" >
+    </EditText>
+
+    <AutoCompleteTextView
+        android:id="@+id/et_URLimg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center_horizontal"
+        android:ems="10"
+        android:hint="URL del plato" >
+    </AutoCompleteTextView>
+
+    <Button
+        android:id="@+id/but_agregar_plato"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/et_URLimg"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:text="AGREGAR" />
+
+</LinearLayout>
