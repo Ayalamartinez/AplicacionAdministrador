@@ -15,11 +15,12 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.ayalamart.adapter.PostAdapter;
-import com.ayalamart.adapter.PostData;
 import com.ayalamart.helper.AppController;
+import com.ayalamart.modelo.PostData;
 
 import android.app.ListActivity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -29,21 +30,18 @@ import android.view.View.OnClickListener;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class Act_PlatosMenu extends ListActivity {
-	String url_IngredientesAll = "http://192.168.1.99:8080/Restaurante/rest/ingrediente/getIngredientesAll"; 
-	String url_Crearplato = "http://192.168.1.99:8080/Restaurante/rest/plato/createPlato"; 
-	String url_IngredientesAll_n = "http://10.10.0.99:8080/Restaurante/rest/ingrediente/getIngredientesAll"; 
-	String url_Crearplato_n = "http://10.10.0.99:8080/Restaurante/rest/plato/createPlato"; 
-
+	String url_IngredientesAll_J = "http://192.168.1.99:8080/Restaurante/rest/ingrediente/getIngredientesAll"; 
+	String url_Crearplato_J = "http://192.168.1.99:8080/Restaurante/rest/plato/createPlato"; 
+	String url_IngredientesAll_N = "http://10.10.0.99:8080/Restaurante/rest/ingrediente/getIngredientesAll"; 
+	String url_Crearplato_N = "http://10.10.0.99:8080/Restaurante/rest/plato/createPlato"; 
+	String url_IngredientesAll = "http://10.0.2.2:8080/Restaurante/rest/ingrediente/getIngredientesAll"; 
+	String url_Crearplato = "http://10.0.2.2:8080/Restaurante/rest/plato/createPlato"; 
 	private static String TAG = Act_PlatosMenu.class.getSimpleName();
-	private ProgressDialog pDialog;
-	JSONArray resultado; 
-
-	Spinner campoIngr ;
+	private ProgressDialog pDialog;	
 	private PostAdapter adapter;
 	private ArrayList<PostData> data;
 	private JSONArray base; 
@@ -69,26 +67,20 @@ public class Act_PlatosMenu extends ListActivity {
 					for (int i = 0; i < response.length(); i++) {
 						JSONObject ingrediente = (JSONObject)response.get(i);
 						ingrediente.getString("cantstock"); 
-						String cantstock = ingrediente.getString("cantstock").toString(); 
-						ingrediente.getString("nomingrediente"); 
-						String nombre = ingrediente.getString("nomingrediente").toString(); 
-						ingrediente.getString("precioingrediente"); 
-						String precio = ingrediente.getString("precioingrediente").toString();
-						ingrediente.getString("descingrediente"); 
-						String descingrediente = ingrediente.getString("descingrediente").toString(); 
-						ingrediente.getString("estatus"); 
-						String estatus = ingrediente.getString("estatus").toString(); 
-						ingrediente.getString("fecha"); 
-						String fecha = ingrediente.getString("fecha").toString(); 
-						ingrediente.getString("idingrediente");
-						String idingrediente = ingrediente.getString("idingrediente").toString(); 
+						ingrediente.getString("nomingrediente"); 						
+						ingrediente.getString("precioingrediente"); 						
+						ingrediente.getString("descingrediente"); 						
+						ingrediente.getString("estatus"); 						
+						ingrediente.getString("fecha"); 						
+						ingrediente.getString("idingrediente");						
 						ingrediente.getString("tipoingrediente");
-						String tipoingrediente = ingrediente.getString("tipoingrediente").toString(); 
 
-
-						data.add(new PostData(nombre , false));
+						String nombre = ingrediente.getString("nomingrediente").toString(); 
+						String cantStock = ingrediente.getString("cantstock").toString(); 
+						data.add(new PostData(nombre , false, "0", cantStock));
 					}
 					base = response; 
+
 					setListAdapter(adapter);
 
 				}catch(JSONException e) {
@@ -106,7 +98,7 @@ public class Act_PlatosMenu extends ListActivity {
 			public void onErrorResponse(VolleyError error) {
 				VolleyLog.d(TAG, "Error: " + error.getMessage());
 				Toast.makeText(getApplicationContext(),
-						error.getMessage(), Toast.LENGTH_SHORT).show();
+						error.getMessage() + " error de respuesta del servidor", Toast.LENGTH_SHORT).show();
 				hidepDialog();
 			}
 		}); 
@@ -115,11 +107,13 @@ public class Act_PlatosMenu extends ListActivity {
 
 		Button but_crear = (Button)findViewById(R.id.but_agregar_plato); 
 		but_crear.setOnClickListener(new OnClickListener() {
-			JSONObject plato = new JSONObject(); 
-			JSONObject ingrediente_n = new JSONObject(); 
+			JSONArray plato = new JSONArray(); 
+			JSONObject ingred = new JSONObject(); 
+			JSONObject plato_tot = new JSONObject(); 
 			@Override
 			public void onClick(View v) {
 				showpDialog();
+
 				if (adapter.haveSomethingSelected()) {
 
 					int cuenta = data.size(); 
@@ -129,15 +123,10 @@ public class Act_PlatosMenu extends ListActivity {
 						if (data.get(i).getChecked())
 						{
 							try {
-								JSONObject ingred = base.getJSONObject(i);
-								String iding_str = ingred.get("idingrediente").toString(); 
-								String nomingr_str = ingred.getString("nomingrediente").toString(); 
-								ingrediente_n.put("nomingrediente", nomingr_str); 
-								ingrediente_n.put("idingrediente", iding_str); 
-								Log.d(TAG, "Objeto JSON"+ ingred.toString()); 
+								ingred = base.getJSONObject(i);
 								String precio_i = ingred.get("precioingrediente").toString(); 
 								subtotal = Double.valueOf(precio_i).doubleValue() + subtotal; 
-								plato.put("ingrediente", ingrediente_n); 
+								plato.put(ingred); 
 							} catch (JSONException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
@@ -156,41 +145,34 @@ public class Act_PlatosMenu extends ListActivity {
 					Calendar rightnow =Calendar.getInstance();
 					SimpleDateFormat fechaact = new SimpleDateFormat("yy-MM-dd HH:mm:ss");
 					String fecha = fechaact.format(rightnow.getTime());
-					/*
-					 * 	plato.setNomplato("Parrilla");
-						plato.setPrecplato(new BigDecimal(769));
-						plato.setDescplato("Parrilla");
-						plato.setEstatus("1");
-						plato.setIdplato(new Long(0));
-						plato.setFecha("2015-09-19");
-						plato.setImgplato("");*/
+
 
 					try {
-						plato.put("nomplato", nombreplato_str);
-						plato.put("precplato", total);
-						plato.put("descplato", desctipcionplato_str); 
-						plato.put("estatus", "1"); 
-						plato.put("idplato", idplato);
-						plato.put("fecha", fecha); 
-						plato.put("imgplato", urlplato_str); 
+						plato_tot.put("nomplato", nombreplato_str);
+						plato_tot.put("precplato", total);
+						plato_tot.put("descplato", desctipcionplato_str); 
+						plato_tot.put("estatus", "1"); 
+						plato_tot.put("idplato", idplato);
+						plato_tot.put("fecha", fecha); 
+						plato_tot.put("imgplato", urlplato_str); 
+						plato_tot.put("ingredientes", plato); 
 
 					} catch (JSONException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					} 
+					Log.d(TAG, "TODOELPLATO" +  plato_tot.toString()); 
 
 					JsonObjectRequest AgregplatoREQ = new JsonObjectRequest(Method.POST, 
-							url_Crearplato, plato, null, new Response.ErrorListener() {
+							url_Crearplato, plato_tot, null, new Response.ErrorListener() {
 
 						@Override
 						public void onErrorResponse(VolleyError error) {
-							// TODO Auto-generated method stub
+
 							VolleyLog.d(TAG, "Error: " + error.getMessage());
 
 							Log.d(TAG, "Error CON S1: " + error.getMessage()); 
 							hidepDialog();
-
-
 						}
 					}); 
 					AppController.getInstance().addToRequestQueue(AgregplatoREQ);
@@ -198,8 +180,10 @@ public class Act_PlatosMenu extends ListActivity {
 				}
 				else{
 					Toast.makeText(getApplicationContext(), "no ha seleccionado ingredientes", Toast.LENGTH_SHORT).show(); 
-				}
+				}		
 
+				Intent int_ppal = new Intent(getApplicationContext(), ActPrincipal.class); 
+				startActivity(int_ppal);	
 			}
 		});
 
@@ -219,11 +203,11 @@ public class Act_PlatosMenu extends ListActivity {
 
 
 
-	/*
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.plato__menu, menu);
+		getMenuInflater().inflate(R.menu.plato_menu, menu);
 		return true;
 	}
 
@@ -238,7 +222,7 @@ public class Act_PlatosMenu extends ListActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	 */
+
 	private void showpDialog() {
 		if (!pDialog.isShowing())
 			pDialog.show();

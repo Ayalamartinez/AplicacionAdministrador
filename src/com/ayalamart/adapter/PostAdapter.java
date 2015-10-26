@@ -3,14 +3,19 @@ package com.ayalamart.adapter;
 import java.util.ArrayList;
 
 import com.ayalamart.administrador.R;
+import com.ayalamart.modelo.PostData;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.TextClock;
 import android.widget.TextView;
 import android.view.View.OnClickListener;
 
@@ -20,6 +25,8 @@ public class PostAdapter extends BaseAdapter {
 	{
 		TextView tvNombreIng;
 		CheckBox cb;
+		EditText et_Cantidad;
+		TextView tvCantStock; 
 	}
 
 	private static final String TAG = "AdapterIngr";
@@ -98,6 +105,8 @@ public class PostAdapter extends BaseAdapter {
 
 			holder.tvNombreIng = (TextView) convertView
 					.findViewById(R.id.tvNombreIng);
+			holder.et_Cantidad = (EditText)convertView.findViewById(R.id.et_Cantidad);
+			holder.tvCantStock = (TextView)convertView.findViewById(R.id.tvCantStock); 
 			holder.cb = (CheckBox) convertView.findViewById(R.id.cbescogido);
 			holder.cb.setOnClickListener(checkListener);
 			convertView.setTag(holder);
@@ -110,6 +119,8 @@ public class PostAdapter extends BaseAdapter {
 		holder.cb.setTag(d);
 		// Setting all values in listview	
 		holder.tvNombreIng.setText(data.get(position).getNombres());
+		holder.et_Cantidad.setText(data.get(position).getCantidad());
+		holder.tvCantStock.setText(data.get(position).getCantStock());
 		holder.cb.setChecked(data.get(position).getChecked());
 		return convertView;
 	}
@@ -141,7 +152,6 @@ public class PostAdapter extends BaseAdapter {
 				i++;
 		}
 		notifyDataSetChanged();
-
 	}
 
 	public boolean haveSomethingSelected()
@@ -152,6 +162,7 @@ public class PostAdapter extends BaseAdapter {
 		return false;
 	}
 
+	
 	private OnClickListener checkListener = new OnClickListener()
 	{
 

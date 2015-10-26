@@ -18,15 +18,29 @@ public class ActPrincipal extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_act_principal);
-		
+
 		sesion = new GestionSesionesUsuario(getApplicationContext());
 		if (sesion.verificarLogin()) {
 			finish(); 
 		}
-		
+		Button but_menu = (Button)findViewById(R.id.bt_gestMenu); 
+		but_menu.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Intent int_menu = new Intent(getApplicationContext(), Act_ConfMenu.class); 
+				int_menu.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
+				int_menu.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				startActivity(int_menu);
+				finish(); 
+			}
+		});
+
+
+
 		Button but_ingredientes = (Button)findViewById(R.id.but_ingrecientes);
 		but_ingredientes.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				Intent int_ingr = new Intent(getApplicationContext(), Act_Ingredientes.class); 
@@ -35,28 +49,28 @@ public class ActPrincipal extends AppCompatActivity {
 		});
 		Button but_platos = (Button)findViewById(R.id.but_platos); 
 		but_platos.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				Intent int_plato = new Intent(getApplicationContext(), Act_PlatosMenu.class); 
 				startActivity(int_plato); 
-				
+
 			}
 		});
-		
+
 		Button but_cerrarsesion = (Button)findViewById(R.id.but_cerrarsesion); 
 		but_cerrarsesion.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
-				
+
 				sesion.cerrarSesionUsuario();
-				
+
 			}
 		});
-		
 
-	
+
+
 	}
 
 	@Override
