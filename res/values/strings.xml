@@ -15,7 +15,7 @@
     <string name="action_sign_in">INICIAR SESIÓN</string>
     <string name="registrarse_login">Registrarse</string>
     <string name="title_activity_act_principal">Principal</string>
-    <string name="title_activity_act__login">Login</string>
+    <string name="title_activity_act__login">Administradores Tessies</string>
     <string name="title_activity_act__signup">Registro</string>
     <string name="nombre_usuario"></string>
     <string name="nombre_usuario_hint">Nombres</string>

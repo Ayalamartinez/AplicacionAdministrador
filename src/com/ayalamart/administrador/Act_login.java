@@ -127,13 +127,20 @@ public class Act_login extends AppCompatActivity {
 									String clave_hash = bin2hex(getHash(password_str)); 
 
 									if (clave.equals(clave_hash)) {
-										sesion.crearSesionUSuario(nombre, correo, nombre, apellido, cedula, correo, telefono, clave_hash, tipocliente, idcliente);
+										if (tipocliente.toUpperCase().equals("ADMINISTRADOR")) {
+											
+											sesion.crearSesionUSuario(nombre, correo, nombre, apellido, cedula, correo, telefono, clave_hash, tipocliente, idcliente);
 
-										Intent intent_ppal = new Intent(getApplicationContext(), ActPrincipal.class); 
-										intent_ppal.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
-										intent_ppal.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); 
-										startActivity(intent_ppal);
-										finish(); 
+											Intent intent_ppal = new Intent(getApplicationContext(), ActPrincipal.class); 
+											intent_ppal.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
+											intent_ppal.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); 
+											startActivity(intent_ppal);
+											finish(); 
+										}
+										else {
+											Toast.makeText(getApplicationContext(), "Usuario no autorizado!", Toast.LENGTH_SHORT).show(); 
+											
+										}
 
 									}
 									else{
