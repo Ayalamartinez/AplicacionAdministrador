@@ -43,8 +43,8 @@ public class Act_Signup extends Activity {
 	private ProgressDialog pDialog;
 	String Nac_doc;
 	String OP_doc;
-	String urlCrearCliente = "http://192.168.1.99:8080/Restaurante/rest/createCliente"; 
-	String urlCrearCliente_N = "http://10.10.0.99:8080/Restaurante/rest/createCliente"; 
+	String urlCrearCliente_N = "http://192.168.1.99:8080/Restaurante/rest/createCliente"; 
+	String urlCrearCliente = "http://10.10.0.99:8080/Restaurante/rest/createCliente"; 
 	String urlCrearcliente_R = "http://192.168.1.99:8080/Restaurante/rest/createCliente"; 
 	//private String UrlRequest; 
 	String tipocliente = "administrador";

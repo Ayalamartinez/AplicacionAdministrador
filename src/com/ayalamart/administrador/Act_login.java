@@ -43,8 +43,8 @@ public class Act_login extends AppCompatActivity {
 
 	private static String TAG = Act_login.class.getSimpleName();
 
-	String url = "http://192.168.1.99:8080/Restaurante/rest/getCliente/"; 
-	String url_N = "http://10.10.0.99:8080/Restaurante/rest/getCliente/"; 
+	String url_o = "http://192.168.1.99:8080/Restaurante/rest/getCliente/"; 
+	String url = "http://10.10.0.99:8080/Restaurante/rest/getCliente/"; 
 	String url_R = "http://192.168.1.99:8080/Restaurante/rest/getCliente/"; 
 
 	protected void onCreate(Bundle savedInstanceState) {

@@ -36,10 +36,10 @@ import android.widget.Toast;
 public class Act_PlatosMenu extends ListActivity {
 	String url_IngredientesAll_J = "http://192.168.1.99:8080/Restaurante/rest/ingrediente/getIngredientesAll"; 
 	String url_Crearplato_J = "http://192.168.1.99:8080/Restaurante/rest/plato/createPlato"; 
-	String url_IngredientesAll_N = "http://10.10.0.99:8080/Restaurante/rest/ingrediente/getIngredientesAll"; 
-	String url_Crearplato_N = "http://10.10.0.99:8080/Restaurante/rest/plato/createPlato"; 
-	String url_IngredientesAll = "http://10.0.2.2:8080/Restaurante/rest/ingrediente/getIngredientesAll"; 
-	String url_Crearplato = "http://10.0.2.2:8080/Restaurante/rest/plato/createPlato"; 
+	String url_IngredientesAll = "http://10.10.0.99:8080/Restaurante/rest/ingrediente/getIngredientesAll"; 
+	String url_Crearplato = "http://10.10.0.99:8080/Restaurante/rest/plato/createPlato"; 
+	String url_IngredientesAll_N = "http://10.0.2.2:8080/Restaurante/rest/ingrediente/getIngredientesAll"; 
+	String url_Crearplato_N  = "http://10.0.2.2:8080/Restaurante/rest/plato/createPlato"; 
 	private static String TAG = Act_PlatosMenu.class.getSimpleName();
 	private ProgressDialog pDialog;	
 	private PostAdapter adapter;

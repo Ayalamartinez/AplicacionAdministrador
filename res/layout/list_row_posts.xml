@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="right"
-    android:orientation="horizontal" >
+    android:orientation="horizontal" 
+    android:background="#A6AD3C">
 
     <TextView
         android:id="@+id/tvCantStock"

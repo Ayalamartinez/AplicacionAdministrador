@@ -38,8 +38,8 @@ public class Act_Ingredientes extends AppCompatActivity {
 	private static String TAG = Act_Ingredientes.class.getSimpleName(); 
 	GestionSesionesUsuario sesion; 
 
-	String URL_AGREG_INGREDS = "http://192.168.1.99:8080/Restaurante/rest/ingrediente/createIngrediente";
-	String URL_AGREG_INGREDS_N = "http://10.10.0.99:8080/Restaurante/rest/ingrediente/createIngrediente";
+	String URL_AGREG_INGREDS_N = "http://192.168.1.99:8080/Restaurante/rest/ingrediente/createIngrediente";
+	String URL_AGREG_INGREDS = "http://10.10.0.99:8080/Restaurante/rest/ingrediente/createIngrediente";
 	String URL_AGREG_INGREDS_R = "http://192.168.1.99:8080/Restaurante/rest/ingrediente/createIngrediente";
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
