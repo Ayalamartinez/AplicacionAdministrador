@@ -41,5 +41,6 @@
     <string name="but_ingredientes">STOCK</string>
     <string name="title_activity_plato__menu">Plato_Menu</string>
     <string name="title_activity_act__conf_menu">Act_ConfMenu</string>
+    <string name="title_activity_act_conf_crear_plato">Act_confCrearPlato</string>
 
 </resources>

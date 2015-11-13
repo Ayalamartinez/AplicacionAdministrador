@@ -36,10 +36,15 @@ import android.widget.Toast;
 public class Act_PlatosMenu extends ListActivity {
 	String url_IngredientesAll_J = "http://192.168.1.99:8080/Restaurante/rest/ingrediente/getIngredientesAll"; 
 	String url_Crearplato_J = "http://192.168.1.99:8080/Restaurante/rest/plato/createPlato"; 
+	
 	String url_IngredientesAll = "http://10.10.0.99:8080/Restaurante/rest/ingrediente/getIngredientesAll"; 
 	String url_Crearplato = "http://10.10.0.99:8080/Restaurante/rest/plato/createPlato"; 
-	String url_IngredientesAll_N = "http://10.0.2.2:8080/Restaurante/rest/ingrediente/getIngredientesAll"; 
-	String url_Crearplato_N  = "http://10.0.2.2:8080/Restaurante/rest/plato/createPlato"; 
+	String url_descontarIngredientes = "http://10.10.0.99:8080/Restaurante/rest/ingrediente/descontarIngrediente/"; 
+	
+	String url_IngredientesAll_PA = "http://10.0.2.2:8080/Restaurante/rest/ingrediente/getIngredientesAll"; 
+	String url_Crearplato_PA  = "http://10.0.2.2:8080/Restaurante/rest/plato/createPlato"; 
+	String url_descontarIngredientes_PA =  "http://10.0.2.2:8080/Restaurante/rest/ingrediente/descontarIngrediente/"; 
+	
 	private static String TAG = Act_PlatosMenu.class.getSimpleName();
 	private ProgressDialog pDialog;	
 	private PostAdapter adapter;
@@ -109,7 +114,8 @@ public class Act_PlatosMenu extends ListActivity {
 		but_crear.setOnClickListener(new OnClickListener() {
 			JSONArray plato = new JSONArray(); 
 			JSONObject ingred = new JSONObject(); 
-			JSONObject plato_tot = new JSONObject(); 
+			JSONObject plato_tot = new JSONObject();
+			private String cant_ingDescontar; 
 			@Override
 			public void onClick(View v) {
 				showpDialog();
@@ -125,8 +131,44 @@ public class Act_PlatosMenu extends ListActivity {
 							try {
 								ingred = base.getJSONObject(i);
 								String precio_i = ingred.get("precioingrediente").toString(); 
+								String idingrediente_i = ingred.get("idingrediente").toString(); 
 								subtotal = Double.valueOf(precio_i).doubleValue() + subtotal; 
+								JSONObject ingred_basic = new JSONObject(); 
+								ingred_basic.put("idingrediente", idingrediente_i); 
+								ingred_basic.put("nomingrediente", ingred.get("nomingrediente").toString()); 
 								plato.put(ingred); 
+								for (int j = 0; j < adapter.getCount(); j++) {
+									Log.d(TAG + "PRUEBA CANT", adapter.getItem(j).toString() );
+									//adapter.getItem(j).getClass(); 
+									try{
+									TextView tv = (TextView)findViewById(R.id.cantidad_ingrediente); 
+									if (!tv.getText().toString().equals("0")) {
+										Log.d(TAG, "aqui esta el texto!!!" + tv.getText().toString()); 
+										cant_ingDescontar = tv.getText().toString(); 
+									}}
+									catch (Exception e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
+								}
+
+								
+								 
+								String url_def = url_descontarIngredientes  + idingrediente_i + "/" +cant_ingDescontar; 
+								Log.d(TAG + "URLDEF", url_def); 
+								JsonObjectRequest descontarIngr = new JsonObjectRequest(Method.POST, 
+										url_def, ingred_basic, null, new Response.ErrorListener() {
+
+									@Override
+									public void onErrorResponse(VolleyError error) {
+
+										VolleyLog.d(TAG, "Error: " + error.getMessage());
+
+										
+										hidepDialog();
+									}
+								}); 
+								AppController.getInstance().addToRequestQueue(descontarIngr);
 							} catch (JSONException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
@@ -200,7 +242,6 @@ public class Act_PlatosMenu extends ListActivity {
 		outState.putParcelableArrayList("savedData", data);
 		super.onSaveInstanceState(outState);
 	}
-
 
 
 

@@ -1,22 +1,40 @@
 package com.ayalamart.administrador;
 
+
+
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 
-public class Act_ConfMenu extends AppCompatActivity {
+public class Act_confCrearPlato extends AppCompatActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_act__conf_menu);
+		setContentView(R.layout.activity_act_conf_crear_plato);
+		
+		LinearLayout linearLayout = (LinearLayout) findViewById(R.id.editTextGroupLayout);
+	    EditText editTextView = new EditText(this);
+	    editTextView.setGravity(Gravity.LEFT);
+	    
+
+	    LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT,
+	        LayoutParams.WRAP_CONTENT, 1);
+
+	    editTextView.setLayoutParams(params);
+
+	    linearLayout.addView(editTextView);
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.act__conf_menu, menu);
+		getMenuInflater().inflate(R.menu.act_conf_crear_plato, menu);
 		return true;
 	}
 

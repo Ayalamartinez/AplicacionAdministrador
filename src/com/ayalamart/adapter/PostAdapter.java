@@ -6,18 +6,14 @@ import com.ayalamart.administrador.R;
 import com.ayalamart.modelo.PostData;
 
 import android.content.Context;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.TextClock;
 import android.widget.TextView;
-import android.view.View.OnClickListener;
 
 public class PostAdapter extends BaseAdapter {
 
@@ -98,8 +94,8 @@ public class PostAdapter extends BaseAdapter {
 			convertView = inflater.inflate(R.layout.list_row_posts, null);
 
 			convertViewCounter++;
-         //   Log.v(TAG, convertViewCounter + " convertViews have been created");
-			
+			//   Log.v(TAG, convertViewCounter + " convertViews have been created");
+
 			holder = new ViewHolder();
 
 
@@ -132,6 +128,20 @@ public class PostAdapter extends BaseAdapter {
 		d.setChecked(!d.getChecked());
 		notifyDataSetChanged();
 	}
+	/*public void setTXTCantidad(int position, View convertView){
+			ViewHolder holder; 
+			holder = (ViewHolder) convertView.getTag();
+			
+	}
+	public String getTXTCant(int position, ViewHolder holder){
+		
+		PostData d_1 = data.get(position); 
+		String cant = null; 
+		cant = holder.et_Cantidad.getText().toString(); 
+		d_1.setCantidad(cant);
+		return holder.et_Cantidad.getText().toString(); 
+	}
+*/
 
 	public void checkAll(boolean state)
 	{
@@ -162,7 +172,7 @@ public class PostAdapter extends BaseAdapter {
 		return false;
 	}
 
-	
+
 	private OnClickListener checkListener = new OnClickListener()
 	{
 

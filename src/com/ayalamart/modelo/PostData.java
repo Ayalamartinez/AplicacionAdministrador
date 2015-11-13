@@ -1,7 +1,10 @@
 package com.ayalamart.modelo;
 
+import java.lang.reflect.Array;
+
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.ArraySet;
 
 public class PostData implements Parcelable {
 
@@ -62,7 +65,6 @@ public class PostData implements Parcelable {
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeString(getNombres());
-		dest.writeString(getCantidad());
 		dest.writeString(getCantStock());
 		dest.writeInt(getChecked() ? 1 : 0);
 	}

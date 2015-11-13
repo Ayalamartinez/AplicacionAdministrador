@@ -10,10 +10,10 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.ayalamart.administrador.Act_PlatosMenu" >
 
-    <ScrollView
-        android:id="@+id/scrollView1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+<!--     <ScrollView -->
+<!--         android:id="@+id/scrollView1" -->
+<!--         android:layout_width="match_parent" -->
+<!--         android:layout_height="wrap_content" > -->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -33,7 +33,7 @@
             <ListView
                 android:id="@android:id/list"
                 android:layout_width="match_parent"
-                android:layout_height="314dp"
+                android:layout_height="290dp"
                 tools:listitem="@android:layout/simple_list_item_checked" >
             </ListView>
 
@@ -58,6 +58,6 @@
                 android:text="AGREGAR" />
         </LinearLayout>
 
-    </ScrollView>
+<!--     </ScrollView> -->
 
 </LinearLayout>

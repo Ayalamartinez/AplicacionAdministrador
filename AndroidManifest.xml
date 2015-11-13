@@ -46,6 +46,10 @@
             android:name=".Act_ConfMenu"
             android:label="@string/title_activity_act__conf_menu" >
         </activity>
+        <activity
+            android:name=".Act_confCrearPlato"
+            android:label="@string/title_activity_act_conf_crear_plato" >
+        </activity>
     </application>
 
 </manifest>
